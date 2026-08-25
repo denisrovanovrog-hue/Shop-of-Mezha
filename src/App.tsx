@@ -3,8 +3,8 @@ import { ArrowDown, ArrowRight, Check, Menu, Music2, Send, X } from 'lucide-reac
 import { supabase } from '@/lib/supabase';
 
 const products = [
-  { name: 'СВОБОДНЫЙ ХОД', type: 'oversize / 235 г/м²', price: '89 BYN', tone: 'black', mark: '01', image: '/images/1._СВОБОДНЫИ_ХОД.png' },
-  { name: 'СИЛУЭТ', type: 'oversize / 235 г/м²', price: '89 BYN', tone: 'bone', mark: '02', image: '/images/5._СИЛУЭТ.png' },
+  { name: 'СВОБОДНЫЙ ХОД', type: 'oversize / 235 г/м²', price: '89 BYN', tone: 'black', mark: '01', image: '/images/ВАРИАНТ_2.png' },
+  { name: 'СИЛУЭТ', type: 'oversize / 235 г/м²', price: '89 BYN', tone: 'bone', mark: '02', image: '/images/ВАРИАНТ_6.png' },
 ];
 
 type Product = (typeof products)[number];
@@ -61,6 +61,12 @@ function App() {
       shippingMethod: form.shippingMethod,
       product: selectedProduct.name,
     };
+
+    if (!supabase) {
+      setError('Форма заказа временно недоступна. Напишите нам в Telegram.');
+      setIsSending(false);
+      return;
+    }
 
     const { error: insertError } = await supabase.from('mezha_orders').insert({
       full_name: order.fullName,
