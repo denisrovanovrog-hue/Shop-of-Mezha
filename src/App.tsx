@@ -44,6 +44,7 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [expandedProduct, setExpandedProduct] = useState<Product | null>(null);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [addedProduct, setAddedProduct] = useState<string | null>(null);
 
   const updateField = (field: keyof FormState, value: string) => {
@@ -234,7 +235,7 @@ function App() {
 
       <section className="size-guide container" id="sizes">
         <div className="size-guide-heading"><div className="section-label"><span>03</span><span>Размеры</span></div><h2>Найди<br /><em>свой размер.</em></h2><p>Сними мерки по любимой майке и сравни с таблицей. Для оверсайз-посадки выбирай размер по ширине изделия под проймой.</p></div>
-        <div className="size-guide-card"><img src="/images/image.png" alt="Таблица размеров маек МЕЖА" /><div className="size-guide-note"><span>ПОДСКАЗКА</span><strong>Измеряй вещь<br />на ровной поверхности.</strong><p>Ширина — от одной проймы до другой. Длина — от верхней точки плеча до низа по спинке.</p></div></div>
+        <div className="size-guide-card"><img src="/images/image.png" alt="Таблица размеров маек МЕЖА" onClick={() => setSizeGuideOpen(true)} /><div className="size-guide-note"><span>ПОДСКАЗКА</span><strong>Измеряй вещь<br />на ровной поверхности.</strong><p>Ширина — от одной проймы до другой. Длина — от верхней точки плеча до низа по спинке.</p></div></div>
       </section>
 
       <section className="manifesto container"><div className="manifesto-line" /><p>НЕ ИЩИ<br /><span>СВОЁ МЕСТО.</span><br />СОЗДАЙ ЕГО.</p><span className="manifesto-mark">М / 2026</span></section>
@@ -257,6 +258,7 @@ function App() {
         </div>
       </section>
 
+      {sizeGuideOpen && <div className="image-modal" role="dialog" aria-modal="true" aria-label="Просмотр таблицы размеров" onClick={() => setSizeGuideOpen(false)}><button className="image-modal-close" onClick={() => setSizeGuideOpen(false)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src="/images/image.png" alt="Таблица размеров маек МЕЖА — увеличенный просмотр" /><div><strong>Таблица размеров</strong></div></div></div>}
       {expandedProduct && <div className="image-modal" role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / 04</span><strong>{expandedProduct.name}</strong></div></div></div>}
       <footer className="footer container"><a className="wordmark" href="#top">МЕЖА</a><p>ОДЕЖДА ТВОЕГО КРАЯ.</p><div className="footer-links"><a href="https://t.me/moi_angel" aria-label="Telegram"><Send size={17} /></a><a href="https://www.tiktok.com/@shop.mezha" aria-label="TikTok"><Music2 size={17} /></a></div><span>© 2026 МЕЖА</span></footer>
     </main>
