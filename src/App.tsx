@@ -4,10 +4,12 @@ import { supabase } from '@/lib/supabase';
 
 const products = [
   { name: 'СВОБОДНЫЙ ХОД', type: '195г/м²', price: 69, tone: 'black', mark: '01', image: '/images/1._СВОБОДНЫИ_ХОД.png' },
-  { name: 'СИЛУЭТ', type: '195г/м²', price: 69, tone: 'bone', mark: '02', image: '/images/5._СИЛУЭТ.png' },
+  { name: 'ТВОЕ НАПРАВЛЕНИЕ', type: '195г/м²', price: 69, tone: 'bone', mark: '02', image: '/images/ВАРИАНТ_4.png' },
+  { name: 'СИЛУЭТ', type: '195г/м²', price: 69, tone: 'red', mark: '03', image: '/images/5._СИЛУЭТ.png' },
+  { name: 'ШИФР', type: '195г/м²', price: 69, tone: 'green', mark: '04', image: '/images/ВАРИАНТ_7.png' },
 ] as const;
 
-const sizes = ['S', 'M', 'L', 'XL', '2XL'] as const;
+const sizes = ['S', 'M', 'L'] as const;
 type Product = (typeof products)[number];
 type Size = (typeof sizes)[number];
 type CartItem = { id: string; product: Product; size: Size; quantity: number };
@@ -15,6 +17,7 @@ type CartItem = { id: string; product: Product; size: Size; quantity: number };
 type FormState = {
   fullName: string;
   phone: string;
+  email: string;
   telegram: string;
   pickupPoint: string;
   shippingMethod: string;
@@ -23,6 +26,7 @@ type FormState = {
 const initialForm: FormState = {
   fullName: '',
   phone: '',
+  email: '',
   telegram: '',
   pickupPoint: '',
   shippingMethod: 'Европочта',
@@ -68,7 +72,6 @@ function App() {
     });
     setAddedProduct(product.name);
     window.setTimeout(() => setAddedProduct(null), 1800);
-    document.getElementById('order')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const updateCartQuantity = (id: string, amount: number) => {
@@ -142,6 +145,7 @@ function App() {
             size: sizeSummary,
             quantity: totalQuantity,
             full_name: form.fullName.trim(),
+            email: form.email.trim(),
             phone: form.phone.trim(),
             telegram,
             pickup_point: form.pickupPoint.trim(),
@@ -208,7 +212,7 @@ function App() {
       </section>
 
       <section className="catalog container" id="catalog">
-        <div className="section-heading"><div className="section-label"><span>02</span><span>Каталог / 02</span></div><h2>Вещи<br /><em>с характером.</em></h2><p>Базовая форма. Нестандартная мысль.</p></div>
+        <div className="section-heading"><div className="section-label"><span>02</span><span>Каталог / 04</span></div><h2>Вещи<br /><em>с характером.</em></h2><p>Базовая форма. Нестандартная мысль.</p></div>
         <div className="product-grid">
           {products.map((product) => {
             const selectedSize = getCardSize(product);
@@ -216,15 +220,16 @@ function App() {
             return <article className="product-card" key={product.name}>
               <div className="product-image" onClick={() => setExpandedProduct(product)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setExpandedProduct(product); } }} role="button" tabIndex={0} aria-label={`Рассмотреть майку ${product.name}`}>
                 <img className="product-photo" src={product.image} alt={`Майка ${product.name}`} />
-                <span className="product-number">{product.mark} / 02</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
+                <span className="product-number">{product.mark} / 04</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
               </div>
               <div className="product-info"><div><h3>{product.name}</h3><p>{product.type}</p></div><strong>{formatPrice(product.price)}</strong></div>
-              <div className="product-options"><div className="product-size-picker"><span>РАЗМЕР</span><div>{sizes.map((size) => <button className={selectedSize === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [product.name]: size }))}>{size}</button>)}</div></div><div className="product-quantity"><span>КОЛ-ВО</span><div><button type="button" onClick={() => changeCardQuantity(product, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button><strong>{selectedQuantity} шт.</strong><button type="button" onClick={() => changeCardQuantity(product, 1)} aria-label="Увеличить количество"><Plus size={13} /></button></div></div></div>
+              <div className="product-options"><div className="product-size-picker"><span>РАЗМЕР</span><div className="size-choice-row">{sizes.map((size) => <button className={selectedSize === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [product.name]: size }))}>{size}</button>)}</div><div className="size-hints"><span>S&nbsp; 44–46</span><span>M&nbsp; 48</span><span>L&nbsp; 50</span></div></div><div className="product-quantity"><span>КОЛ-ВО</span><div><button type="button" onClick={() => changeCardQuantity(product, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button><strong>{selectedQuantity} шт.</strong><button type="button" onClick={() => changeCardQuantity(product, 1)} aria-label="Увеличить количество"><Plus size={13} /></button></div></div></div>
               <button className={`product-order ${addedProduct === product.name ? 'is-added' : ''}`} onClick={() => addToCart(product)}>{addedProduct === product.name ? 'Успешно добавлено' : 'Добавить в корзину'} <ArrowRight size={16} /></button>
             </article>;
           })}
         </div>
         <p className="catalog-note">* Без учёта доставки (бесплатно при заказе от 2-х вещей).</p>
+        <p className="catalog-sizes-note">** Размеры соответствуют стандартным белорусским. Если вы хотите, чтобы майка сидела свободно (оверсайз), рекомендуем заказывать на один размер больше вашего привычного.</p>
       </section>
 
       <section className="size-guide container" id="sizes">
@@ -240,7 +245,7 @@ function App() {
           {submitted ? <div className="success-message"><div className="success-icon"><Check size={28} /></div><h3>Заявка принята.</h3><p>Спасибо. Мы уже получили твой заказ и напишем для подтверждения деталей.</p><button className="button button-dark" onClick={() => setSubmitted(false)}>Оформить ещё одну <ArrowRight size={17} /></button></div> : <form className="order-form" onSubmit={submitOrder}>
             <p className="required-note"><span>*</span> обязательные поля</p>
             <label><span>ФИО <b>*</b></span><input required value={form.fullName} onChange={(event) => updateField('fullName', event.target.value)} placeholder="Как к вам обращаться?" /></label>
-            <div className="form-row"><label><span>ТЕЛЕФОН <b>*</b></span><input required type="tel" value={form.phone} onChange={(event) => updateField('phone', event.target.value)} placeholder="+375 (__) ___-__-__" /></label><label><span>TELEGRAM</span><input value={form.telegram} onChange={(event) => updateField('telegram', event.target.value)} placeholder="Необязательно" /></label></div>
+            <div className="form-row"><label><span>ТЕЛЕФОН <b>*</b></span><input required type="tel" value={form.phone} onChange={(event) => updateField('phone', event.target.value)} placeholder="+375 (__) ___-__-__" /></label><label><span>ЭЛЕКТРОННАЯ ПОЧТА <b>*</b></span><input required type="email" value={form.email} onChange={(event) => updateField('email', event.target.value)} placeholder="example@gmail.com" /></label></div><label><span>TELEGRAM</span><input value={form.telegram} onChange={(event) => updateField('telegram', event.target.value)} placeholder="Необязательно" /></label>
             <label><span>ОТДЕЛЕНИЕ ПОЧТЫ <b>*</b></span><input required value={form.pickupPoint} onChange={(event) => updateField('pickupPoint', event.target.value)} placeholder="Город, номер или адрес отделения" /></label>
             <fieldset><legend>СПОСОБ ДОСТАВКИ <b>*</b></legend><div className="shipping-options">{['Европочта', 'Белпочта'].map((shippingMethod) => <label className={form.shippingMethod === shippingMethod ? 'active' : ''} key={shippingMethod}><input type="radio" name="shippingMethod" value={shippingMethod} checked={form.shippingMethod === shippingMethod} onChange={(event) => updateField('shippingMethod', event.target.value)} />{shippingMethod}</label>)}</div></fieldset>
             <div className="cart-panel"><div className="cart-heading"><h3>Корзина</h3><span>{totalQuantity} шт.</span></div>{cart.length === 0 ? <p className="cart-empty">Добавьте вещи из каталога, чтобы оформить заказ.</p> : <div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.id}><div><strong>{item.product.name}</strong><span>Размер {item.size} · {formatPrice(item.product.price)} / шт.</span></div><div className="cart-item-actions"><div className="quantity-control"><button type="button" onClick={() => updateCartQuantity(item.id, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button><strong>{item.quantity}</strong><button type="button" onClick={() => updateCartQuantity(item.id, 1)} aria-label="Увеличить количество"><Plus size={13} /></button></div><button className="remove-item" type="button" onClick={() => removeFromCart(item.id)}>Убрать</button></div></div>)}</div>}
@@ -252,7 +257,7 @@ function App() {
         </div>
       </section>
 
-      {expandedProduct && <div className="image-modal" role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / 02</span><strong>{expandedProduct.name}</strong></div></div></div>}
+      {expandedProduct && <div className="image-modal" role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / 04</span><strong>{expandedProduct.name}</strong></div></div></div>}
       <footer className="footer container"><a className="wordmark" href="#top">МЕЖА</a><p>ОДЕЖДА ТВОЕГО КРАЯ.</p><div className="footer-links"><a href="https://t.me/moi_angel" aria-label="Telegram"><Send size={17} /></a><a href="https://www.tiktok.com/@shop.mezha" aria-label="TikTok"><Music2 size={17} /></a></div><span>© 2026 МЕЖА</span></footer>
     </main>
   );
