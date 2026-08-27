@@ -9,8 +9,8 @@ const products = [
   { name: 'ЦИФРОВОЙ СЛЕД', type: '195г/м²', price: 69, tone: 'sand', mark: '04', image: '/images/4._ЦИФРОВОИ_СЛЕД.png' },
   { name: 'СИЛУЭТ', type: '195г/м²', price: 69, tone: 'red', mark: '05', image: '/images/5._СИЛУЭТ.png' },
   { name: 'ШИФР', type: '195г/м²', price: 69, tone: 'green', mark: '06', image: '/images/6._ШИФР.png' },
-  { name: 'КОНТЕКСТ', type: '195г/м²', price: 69, tone: 'rust', mark: '07', image: '/images/8._КООРДИНАТА copy.png' },
-  { name: 'КООРДИНАТА', type: '195г/м²', price: 69, tone: 'teal', mark: '08', image: '/images/7._КОНТЕКСТ copy.png' },
+  { name: 'КОНТЕКСТ', type: '195г/м²', price: 69, tone: 'rust', mark: '07', image: '/images/7._КОНТЕКСТ copy.png' },
+  { name: 'КООРДИНАТА', type: '195г/м²', price: 69, tone: 'teal', mark: '08', image: '/images/8._КООРДИНАТА copy.png' },
 ] as const;
 
 const sizes = ['S', 'M', 'L'] as const;
