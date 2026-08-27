@@ -4,9 +4,9 @@ import { supabase } from '@/lib/supabase';
 
 const products = [
   { name: 'СВОБОДНЫЙ ХОД', type: '195г/м²', price: 69, tone: 'black', mark: '01', image: '/images/1._СВОБОДНЫИ_ХОД.png' },
-  { name: 'ТВОЕ НАПРАВЛЕНИЕ', type: '195г/м²', price: 69, tone: 'bone', mark: '02', image: '/images/ВАРИАНТ_4.png' },
+  { name: 'ТВОЕ НАПРАВЛЕНИЕ', type: '195г/м²', price: 69, tone: 'bone', mark: '02', image: '/images/2._ТВОЕ_НАПРАВЛЕНИЕ.png' },
   { name: 'СИЛУЭТ', type: '195г/м²', price: 69, tone: 'red', mark: '03', image: '/images/5._СИЛУЭТ.png' },
-  { name: 'ШИФР', type: '195г/м²', price: 69, tone: 'green', mark: '04', image: '/images/ВАРИАНТ_7.png' },
+  { name: 'ШИФР', type: '195г/м²', price: 69, tone: 'green', mark: '04', image: '/images/6._ШИФР.png' },
 ] as const;
 
 const sizes = ['S', 'M', 'L'] as const;
@@ -224,7 +224,7 @@ function App() {
                 <span className="product-number">{product.mark} / 04</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
               </div>
               <div className="product-info"><div><h3>{product.name}</h3><p>{product.type}</p></div><strong>{formatPrice(product.price)}</strong></div>
-              <div className="product-options"><div className="product-size-picker"><span>РАЗМЕР</span><div className="size-choice-row">{sizes.map((size) => <button className={selectedSize === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [product.name]: size }))}>{size}</button>)}</div><div className="size-hints"><span>S&nbsp; 44–46</span><span>M&nbsp; 48</span><span>L&nbsp; 50</span></div></div><div className="product-quantity"><span>КОЛ-ВО</span><div><button type="button" onClick={() => changeCardQuantity(product, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button><strong>{selectedQuantity} шт.</strong><button type="button" onClick={() => changeCardQuantity(product, 1)} aria-label="Увеличить количество"><Plus size={13} /></button></div></div></div>
+              <div className="product-options"><div className="product-size-picker"><span>РАЗМЕР</span><div className="size-choice-row">{sizes.map((size) => <button className={selectedSize === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [product.name]: size }))}>{size}</button>)}</div><div className="size-hints"><span>44–46</span><span>48</span><span>50</span></div></div><div className="product-quantity"><span>КОЛ-ВО</span><div><button type="button" onClick={() => changeCardQuantity(product, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button><strong>{selectedQuantity} шт.</strong><button type="button" onClick={() => changeCardQuantity(product, 1)} aria-label="Увеличить количество"><Plus size={13} /></button></div></div></div>
               <button className={`product-order ${addedProduct === product.name ? 'is-added' : ''}`} onClick={() => addToCart(product)}>{addedProduct === product.name ? 'Успешно добавлено' : 'Добавить в корзину'} <ArrowRight size={16} /></button>
             </article>;
           })}
