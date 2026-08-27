@@ -5,8 +5,12 @@ import { supabase } from '@/lib/supabase';
 const products = [
   { name: 'СВОБОДНЫЙ ХОД', type: '195г/м²', price: 69, tone: 'black', mark: '01', image: '/images/1._СВОБОДНЫИ_ХОД.png' },
   { name: 'ТВОЕ НАПРАВЛЕНИЕ', type: '195г/м²', price: 69, tone: 'bone', mark: '02', image: '/images/2._ТВОЕ_НАПРАВЛЕНИЕ.png' },
-  { name: 'СИЛУЭТ', type: '195г/м²', price: 69, tone: 'red', mark: '03', image: '/images/5._СИЛУЭТ.png' },
-  { name: 'ШИФР', type: '195г/м²', price: 69, tone: 'green', mark: '04', image: '/images/6._ШИФР.png' },
+  { name: 'МЕСТО СИЛЫ', type: '195г/м²', price: 69, tone: 'slate', mark: '03', image: '/images/3._МЕСТО_СИЛЫ.png' },
+  { name: 'ЦИФРОВОЙ СЛЕД', type: '195г/м²', price: 69, tone: 'sand', mark: '04', image: '/images/4._ЦИФРОВОИ_СЛЕД.png' },
+  { name: 'СИЛУЭТ', type: '195г/м²', price: 69, tone: 'red', mark: '05', image: '/images/5._СИЛУЭТ.png' },
+  { name: 'ШИФР', type: '195г/м²', price: 69, tone: 'green', mark: '06', image: '/images/6._ШИФР.png' },
+  { name: 'КОНТЕКСТ', type: '195г/м²', price: 69, tone: 'rust', mark: '07', image: '/images/7._КОНТЕКСТ.png' },
+  { name: 'КООРДИНАТА', type: '195г/м²', price: 69, tone: 'teal', mark: '08', image: '/images/8._КООРДИНАТА.png' },
 ] as const;
 
 const sizes = ['S', 'M', 'L'] as const;
@@ -213,7 +217,7 @@ function App() {
       </section>
 
       <section className="catalog container" id="catalog">
-        <div className="section-heading"><div className="section-label"><span>02</span><span>Каталог / 04</span></div><h2>Вещи<br /><em>с характером.</em></h2><p>Базовая форма. Нестандартная мысль.</p></div>
+        <div className="section-heading"><div className="section-label"><span>02</span><span>Каталог / 08</span></div><h2>Вещи<br /><em>с характером.</em></h2><p>Базовая форма. Нестандартная мысль.</p></div>
         <div className="product-grid">
           {products.map((product) => {
             const selectedSize = getCardSize(product);
@@ -221,7 +225,7 @@ function App() {
             return <article className="product-card" key={product.name}>
               <div className="product-image" onClick={() => setExpandedProduct(product)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setExpandedProduct(product); } }} role="button" tabIndex={0} aria-label={`Рассмотреть майку ${product.name}`}>
                 <img className="product-photo" src={product.image} alt={`Майка ${product.name}`} />
-                <span className="product-number">{product.mark} / 04</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
+                <span className="product-number">{product.mark} / 08</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
               </div>
               <div className="product-info"><div><h3>{product.name}</h3><p>{product.type}</p></div><strong>{formatPrice(product.price)}</strong></div>
               <div className="product-options"><div className="product-size-picker"><span>РАЗМЕР</span><div className="size-choice-row">{sizes.map((size) => <button className={selectedSize === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [product.name]: size }))}>{size}</button>)}</div><div className="size-hints"><span>44–46</span><span>48</span><span>50</span></div></div><div className="product-quantity"><span>КОЛ-ВО</span><div><button type="button" onClick={() => changeCardQuantity(product, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button><strong>{selectedQuantity} шт.</strong><button type="button" onClick={() => changeCardQuantity(product, 1)} aria-label="Увеличить количество"><Plus size={13} /></button></div></div></div>
@@ -259,7 +263,7 @@ function App() {
       </section>
 
       {sizeGuideOpen && <div className="image-modal" role="dialog" aria-modal="true" aria-label="Просмотр таблицы размеров" onClick={() => setSizeGuideOpen(false)}><button className="image-modal-close" onClick={() => setSizeGuideOpen(false)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src="/images/image.png" alt="Таблица размеров маек МЕЖА — увеличенный просмотр" /><div><strong>Таблица размеров</strong></div></div></div>}
-      {expandedProduct && <div className="image-modal" role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / 04</span><strong>{expandedProduct.name}</strong></div></div></div>}
+      {expandedProduct && <div className="image-modal" role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / 08</span><strong>{expandedProduct.name}</strong></div></div></div>}
       <footer className="footer container"><a className="wordmark" href="#top">МЕЖА</a><p>ОДЕЖДА ТВОЕГО КРАЯ.</p><div className="footer-links"><a href="https://t.me/moi_angel" aria-label="Telegram"><Send size={17} /></a><a href="https://www.tiktok.com/@shop.mezha" aria-label="TikTok"><Music2 size={17} /></a></div><span>© 2026 МЕЖА</span></footer>
     </main>
   );
