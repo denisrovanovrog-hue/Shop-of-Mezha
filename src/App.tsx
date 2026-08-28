@@ -48,8 +48,10 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [expandedProduct, setExpandedProduct] = useState<Product | null>(null);
+  const [paramsProduct, setParamsProduct] = useState<Product | null>(null);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [addedProduct, setAddedProduct] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'tshirts' | 'hoodies'>('tshirts');
 
   const updateField = (field: keyof FormState, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -218,21 +220,22 @@ function App() {
 
       <section className="catalog container" id="catalog">
         <div className="section-heading"><div className="section-label"><span>02</span><span>Каталог / 08</span></div><h2>Вещи<br /><em>с характером.</em></h2><p>Базовая форма. Нестандартная мысль.</p></div>
-        <div className="product-grid">
+        <div className="catalog-tabs">
+          <button className={activeTab === 'tshirts' ? 'active' : ''} onClick={() => setActiveTab('tshirts')}>ФУТБОЛКИ</button>
+          <button className={activeTab === 'hoodies' ? 'active' : ''} onClick={() => setActiveTab('hoodies')}>ТОЛСТОВКИ</button>
+        </div>
+        {activeTab === 'tshirts' ? <div className="product-grid">
           {products.map((product) => {
-            const selectedSize = getCardSize(product);
-            const selectedQuantity = getCardQuantity(product);
             return <article className="product-card" key={product.name}>
               <div className="product-image" onClick={() => setExpandedProduct(product)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setExpandedProduct(product); } }} role="button" tabIndex={0} aria-label={`Рассмотреть майку ${product.name}`}>
                 <img className="product-photo" src={product.image} alt={`Майка ${product.name}`} />
                 <span className="product-number">{product.mark} / 08</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
               </div>
               <div className="product-info"><div><h3>{product.name}</h3><p>{product.type}</p></div><strong>{formatPrice(product.price)}</strong></div>
-              <div className="product-options"><div className="product-size-picker"><span>РАЗМЕР</span><div className="size-choice-row">{sizes.map((size) => <button className={selectedSize === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [product.name]: size }))}>{size}</button>)}</div><div className="size-hints"><span>44–46</span><span>48</span><span>50</span></div></div><div className="product-quantity"><span>КОЛ-ВО</span><div><button type="button" onClick={() => changeCardQuantity(product, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button><strong>{selectedQuantity} шт.</strong><button type="button" onClick={() => changeCardQuantity(product, 1)} aria-label="Увеличить количество"><Plus size={13} /></button></div></div></div>
-              <button className={`product-order ${addedProduct === product.name ? 'is-added' : ''}`} onClick={() => addToCart(product)}>{addedProduct === product.name ? 'Успешно добавлено' : 'Добавить в корзину'} <ArrowRight size={16} /></button>
+              <button className="product-choose" onClick={() => setParamsProduct(product)}>Выбрать параметры <ArrowRight size={16} /></button>
             </article>;
           })}
-        </div>
+        </div> : <div className="catalog-empty-tab"><p>Скоро здесь появятся толстовки.</p></div>}
         <p className="catalog-note">* Без учёта доставки (бесплатно при заказе от 2-х вещей).</p>
         <p className="catalog-sizes-note">** Размеры соответствуют стандартным белорусским. Если вы хотите, чтобы майка сидела свободно (оверсайз), рекомендуем заказывать на один размер больше вашего привычного.</p>
       </section>
@@ -264,6 +267,45 @@ function App() {
 
       {sizeGuideOpen && <div className="image-modal" role="dialog" aria-modal="true" aria-label="Просмотр таблицы размеров" onClick={() => setSizeGuideOpen(false)}><button className="image-modal-close" onClick={() => setSizeGuideOpen(false)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src="/images/image.png" alt="Таблица размеров маек МЕЖА — увеличенный просмотр" /><div><strong>Таблица размеров</strong></div></div></div>}
       {expandedProduct && <div className="image-modal" role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / 08</span><strong>{expandedProduct.name}</strong></div></div></div>}
+      {paramsProduct && (
+        <div className="image-modal params-modal" role="dialog" aria-modal="true" aria-label={`Выбор параметров: ${paramsProduct.name}`} onClick={() => setParamsProduct(null)}>
+          <button className="image-modal-close" onClick={() => setParamsProduct(null)} aria-label="Закрыть"><X size={24} /></button>
+          <div className="params-modal-content" onClick={(event) => event.stopPropagation()}>
+            <div className="params-modal-product">
+              <div className="params-modal-photo" onClick={() => setExpandedProduct(paramsProduct)}>
+                <img src={paramsProduct.image} alt={`Майка ${paramsProduct.name}`} />
+              </div>
+              <div className="params-modal-info">
+                <span className="params-modal-mark">{paramsProduct.mark} / 08</span>
+                <h3>{paramsProduct.name}</h3>
+                <p>{paramsProduct.type}</p>
+                <strong>{formatPrice(paramsProduct.price)}</strong>
+              </div>
+            </div>
+            <div className="params-modal-options">
+              <div className="product-size-picker">
+                <span>РАЗМЕР</span>
+                <div className="size-choice-row">
+                  {sizes.map((size) => (
+                    <button className={getCardSize(paramsProduct) === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [paramsProduct.name]: size }))}>{size}</button>
+                  ))}
+                </div>
+                <div className="size-hints"><span>44–46</span><span>48</span><span>50</span></div>
+              </div>
+              <div className="product-quantity">
+                <span>КОЛ-ВО</span>
+                <div>
+                  <button type="button" onClick={() => changeCardQuantity(paramsProduct, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button>
+                  <strong>{getCardQuantity(paramsProduct)} шт.</strong>
+                  <button type="button" onClick={() => changeCardQuantity(paramsProduct, 1)} aria-label="Увеличить количество"><Plus size={13} /></button>
+                </div>
+              </div>
+            </div>
+            <button className="params-modal-add" onClick={() => { addToCart(paramsProduct); setParamsProduct(null); }}>Добавить в корзину <ArrowRight size={16} /></button>
+          </div>
+        </div>
+      )}
+      {addedProduct && <div className="toast-notification"><Check size={16} /> <span>{addedProduct} добавлено в корзину</span></div>}
       <footer className="footer container"><a className="wordmark" href="#top">МЕЖА</a><p>ОДЕЖДА ТВОЕГО КРАЯ.</p><div className="footer-links"><a href="https://t.me/moi_angel" aria-label="Telegram"><Send size={17} /></a><a href="https://www.tiktok.com/@shop.mezha" aria-label="TikTok"><Music2 size={17} /></a></div><span>© 2026 МЕЖА</span></footer>
     </main>
   );
