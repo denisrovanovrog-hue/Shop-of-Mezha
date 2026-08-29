@@ -127,9 +127,9 @@ function App() {
     }
 
     const emailjsConfig = {
-      serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_x3wyi1k',
       templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-      publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'D6P-fI_Auhb_jUPjg',
     };
 
     if (!emailjsConfig.serviceId || !emailjsConfig.templateId || !emailjsConfig.publicKey) {
@@ -282,26 +282,28 @@ function App() {
                 <strong>{formatPrice(paramsProduct.price)}</strong>
               </div>
             </div>
-            <div className="params-modal-options">
-              <div className="product-size-picker">
-                <span>РАЗМЕР</span>
-                <div className="size-choice-row">
-                  {sizes.map((size) => (
-                    <button className={getCardSize(paramsProduct) === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [paramsProduct.name]: size }))}>{size}</button>
-                  ))}
+            <div className="params-modal-side">
+              <div className="params-modal-options">
+                <div className="product-size-picker">
+                  <span>РАЗМЕР</span>
+                  <div className="size-choice-row">
+                    {sizes.map((size) => (
+                      <button className={getCardSize(paramsProduct) === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [paramsProduct.name]: size }))}>{size}</button>
+                    ))}
+                  </div>
+                  <div className="size-hints"><span>44–46</span><span>48</span><span>50</span></div>
                 </div>
-                <div className="size-hints"><span>44–46</span><span>48</span><span>50</span></div>
-              </div>
-              <div className="product-quantity">
-                <span>КОЛ-ВО</span>
-                <div>
-                  <button type="button" onClick={() => changeCardQuantity(paramsProduct, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button>
-                  <strong>{getCardQuantity(paramsProduct)} шт.</strong>
-                  <button type="button" onClick={() => changeCardQuantity(paramsProduct, 1)} aria-label="Увеличить количество"><Plus size={13} /></button>
+                <div className="product-quantity">
+                  <span>КОЛ-ВО</span>
+                  <div>
+                    <button type="button" onClick={() => changeCardQuantity(paramsProduct, -1)} aria-label="Уменьшить количество"><Minus size={13} /></button>
+                    <strong>{getCardQuantity(paramsProduct)} шт.</strong>
+                    <button type="button" onClick={() => changeCardQuantity(paramsProduct, 1)} aria-label="Увеличить количество"><Plus size={13} /></button>
+                  </div>
                 </div>
               </div>
+              <button className="params-modal-add" onClick={() => { addToCart(paramsProduct); setParamsProduct(null); }}>Добавить в корзину <ArrowRight size={16} /></button>
             </div>
-            <button className="params-modal-add" onClick={() => { addToCart(paramsProduct); setParamsProduct(null); }}>Добавить в корзину <ArrowRight size={16} /></button>
           </div>
         </div>
       )}
