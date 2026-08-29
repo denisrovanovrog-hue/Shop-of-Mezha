@@ -271,18 +271,16 @@ function App() {
         <div className="image-modal params-modal" role="dialog" aria-modal="true" aria-label={`Выбор параметров: ${paramsProduct.name}`} onClick={() => setParamsProduct(null)}>
           <div className="params-modal-content" onClick={(event) => event.stopPropagation()}>
             <button className="params-modal-close" onClick={() => setParamsProduct(null)} aria-label="Закрыть окно выбора параметров"><X size={21} /></button>
-            <div className="params-modal-product">
-              <div className="params-modal-photo" onClick={() => setExpandedProduct(paramsProduct)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setExpandedProduct(paramsProduct); } }} aria-label={`Рассмотреть майку ${paramsProduct.name}`}>
-                <img src={paramsProduct.image} alt={`Майка ${paramsProduct.name}`} />
-              </div>
+            <div className="params-modal-photo" onClick={() => setExpandedProduct(paramsProduct)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setExpandedProduct(paramsProduct); } }} aria-label={`Рассмотреть майку ${paramsProduct.name}`}>
+              <img src={paramsProduct.image} alt={`Майка ${paramsProduct.name}`} />
+            </div>
+            <div className="params-modal-side">
               <div className="params-modal-info">
                 <span className="params-modal-mark">{paramsProduct.mark} / 08</span>
                 <h3>{paramsProduct.name}</h3>
                 <p>{paramsProduct.type}</p>
                 <strong>{formatPrice(paramsProduct.price)}</strong>
               </div>
-            </div>
-            <div className="params-modal-side">
               <div className="params-modal-options">
                 <div className="product-size-picker">
                   <span>РАЗМЕР</span>
