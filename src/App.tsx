@@ -3,22 +3,29 @@ import { ArrowDown, ArrowRight, Check, Minus, Plus, Menu, Music2, Send, X } from
 import { supabase } from '@/lib/supabase';
 
 const products = [
-  { name: 'СВОБОДНЫЙ ХОД', type: '195г/м²', price: 69, tone: 'black', mark: '01', image: '/images/1._СВОБОДНЫИ_ХОД.png' },
-  { name: 'ТВОЕ НАПРАВЛЕНИЕ', type: '195г/м²', price: 69, tone: 'bone', mark: '02', image: '/images/2._ТВОЕ_НАПРАВЛЕНИЕ.png' },
-  { name: 'МЕСТО СИЛЫ', type: '195г/м²', price: 69, tone: 'slate', mark: '03', image: '/images/3._МЕСТО_СИЛЫ.png' },
-  { name: 'ЦИФРОВОЙ СЛЕД', type: '195г/м²', price: 69, tone: 'sand', mark: '04', image: '/images/4._ЦИФРОВОИ_СЛЕД copy.png' },
-  { name: 'СИЛУЭТ', type: '195г/м²', price: 69, tone: 'red', mark: '05', image: '/images/5._СИЛУЭТ.png' },
-  { name: 'ШИФР', type: '195г/м²', price: 69, tone: 'green', mark: '06', image: '/images/6._ШИФР.png' },
-  { name: 'КОНТЕКСТ', type: '195г/м²', price: 69, tone: 'rust', mark: '07', image: '/images/7._КОНТЕКСТ copy.png' },
-  { name: 'КООРДИНАТА', type: '195г/м²', price: 69, tone: 'teal', mark: '08', image: '/images/8._КООРДИНАТА copy.png' },
-  { name: 'ПОЛЕТ', type: '195г/м²', price: 69, tone: 'bone', mark: '09', image: '/images/9._ПОЛЕТ.png' },
-  { name: 'ИСТОКИ', type: '195г/м²', price: 69, tone: 'bone', mark: '10', image: '/images/10.ИСТОКИ.png' },
-  { name: 'КАРТА', type: '195г/м²', price: 69, tone: 'bone', mark: '11', image: '/images/11.КАРТА.png' },
-  { name: 'СВЯЗЬ', type: '195г/м²', price: 69, tone: 'bone', mark: '12', image: '/images/12.СВЯЗЬ.png' },
+  { name: 'СВОБОДНЫЙ ХОД', type: '195г/м²', price: 69, tone: 'black', mark: '01', image: '/images/1._СВОБОДНЫИ_ХОД.png', category: 'tshirts' },
+  { name: 'ТВОЕ НАПРАВЛЕНИЕ', type: '195г/м²', price: 69, tone: 'bone', mark: '02', image: '/images/2._ТВОЕ_НАПРАВЛЕНИЕ.png', category: 'tshirts' },
+  { name: 'МЕСТО СИЛЫ', type: '195г/м²', price: 69, tone: 'slate', mark: '03', image: '/images/3._МЕСТО_СИЛЫ.png', category: 'tshirts' },
+  { name: 'ЦИФРОВОЙ СЛЕД', type: '195г/м²', price: 69, tone: 'sand', mark: '04', image: '/images/4._ЦИФРОВОИ_СЛЕД copy.png', category: 'tshirts' },
+  { name: 'СИЛУЭТ', type: '195г/м²', price: 69, tone: 'red', mark: '05', image: '/images/5._СИЛУЭТ.png', category: 'tshirts' },
+  { name: 'ШИФР', type: '195г/м²', price: 69, tone: 'green', mark: '06', image: '/images/6._ШИФР.png', category: 'tshirts' },
+  { name: 'КОНТЕКСТ', type: '195г/м²', price: 69, tone: 'rust', mark: '07', image: '/images/7._КОНТЕКСТ copy.png', category: 'tshirts' },
+  { name: 'КООРДИНАТА', type: '195г/м²', price: 69, tone: 'teal', mark: '08', image: '/images/8._КООРДИНАТА copy.png', category: 'tshirts' },
+  { name: 'ПОЛЕТ', type: '195г/м²', price: 69, tone: 'bone', mark: '09', image: '/images/9._ПОЛЕТ.png', category: 'tshirts' },
+  { name: 'ИСТОКИ', type: '195г/м²', price: 69, tone: 'bone', mark: '10', image: '/images/10.ИСТОКИ.png', category: 'tshirts' },
+  { name: 'КАРТА', type: '195г/м²', price: 69, tone: 'bone', mark: '11', image: '/images/11.КАРТА.png', category: 'tshirts' },
+  { name: 'СВЯЗЬ', type: '195г/м²', price: 69, tone: 'bone', mark: '12', image: '/images/12.СВЯЗЬ.png', category: 'tshirts' },
+] as const;
+
+const hoodies = [
+  { name: 'СВОБОДНЫЙ ХОД', type: 'хлопок', price: 119, tone: 'bone', mark: '01', image: '/images/1._СВОБОДНЫИ_ХОД copy.png', category: 'hoodies' },
+  { name: 'ТВОЕ НАПРАВЛЕНИЕ', type: 'хлопок', price: 119, tone: 'bone', mark: '02', image: '/images/2._ТВОЕ_НАПРАВЛЕНИЕ copy.png', category: 'hoodies' },
+  { name: 'МЕСТО СИЛЫ', type: 'хлопок', price: 119, tone: 'bone', mark: '03', image: '/images/3._МЕСТО_СИЛЫ copy.png', category: 'hoodies' },
+  { name: 'ЦИФРОВОЙ СЛЕД', type: 'хлопок', price: 119, tone: 'bone', mark: '04', image: '/images/4._ЦИФРОВОИ_СЛЕД copy 2.png', category: 'hoodies' },
 ] as const;
 
 const sizes = ['S', 'M', 'L'] as const;
-type Product = (typeof products)[number];
+type Product = (typeof products | typeof hoodies)[number];
 type Size = (typeof sizes)[number];
 type CartItem = { id: string; product: Product; size: Size; quantity: number };
 
@@ -56,6 +63,9 @@ function App() {
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [addedProduct, setAddedProduct] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'tshirts' | 'hoodies'>('tshirts');
+  const activeProducts = activeTab === 'tshirts' ? products : hoodies;
+  const sizeGuideImage = activeTab === 'tshirts' ? '/images/image.png' : '/images/ddcf7dfb-1010-4871-a6b7-e98851be40c6.png';
+  const sizeHints = activeTab === 'tshirts' ? ['44–46', '48', '50'] : ['46', '48', '50'];
 
   const updateField = (field: keyof FormState, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -103,7 +113,7 @@ function App() {
     setError('');
 
     if (cart.length === 0) {
-      setError('Добавьте хотя бы одну майку в корзину.');
+      setError('Добавьте хотя бы одну вещь в корзину.');
       return;
     }
 
@@ -228,25 +238,25 @@ function App() {
           <button className={activeTab === 'tshirts' ? 'active' : ''} onClick={() => setActiveTab('tshirts')}>ФУТБОЛКИ</button>
           <button className={activeTab === 'hoodies' ? 'active' : ''} onClick={() => setActiveTab('hoodies')}>ТОЛСТОВКИ</button>
         </div>
-        {activeTab === 'tshirts' ? <div className="product-grid">
-          {products.map((product) => {
-            return <article className="product-card" key={product.name}>
-              <div className="product-image" onClick={() => setExpandedProduct(product)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setExpandedProduct(product); } }} role="button" tabIndex={0} aria-label={`Рассмотреть майку ${product.name}`}>
-                <img className="product-photo" src={product.image} alt={`Майка ${product.name}`} />
-                <span className="product-number">{product.mark} / 12</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
+        <div className="product-grid">
+          {activeProducts.map((product) => {
+            return <article className="product-card" key={`${product.category}-${product.name}`}>
+              <div className="product-image" onClick={() => setExpandedProduct(product)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setExpandedProduct(product); } }} role="button" tabIndex={0} aria-label={`Рассмотреть ${activeTab === 'tshirts' ? 'майку' : 'толстовку'} ${product.name}`}>
+                <img className="product-photo" src={product.image} alt={`${activeTab === 'tshirts' ? 'Майка' : 'Толстовка'} ${product.name}`} />
+                <span className="product-number">{product.mark} / {activeTab === 'tshirts' ? '12' : '04'}</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
               </div>
               <div className="product-info"><div><h3>{product.name}</h3><p>{product.type}</p></div><strong>{formatPrice(product.price)}</strong></div>
               <button className="product-choose" onClick={() => setParamsProduct(product)}>Выбрать параметры <ArrowRight size={16} /></button>
             </article>;
           })}
-        </div> : <div className="catalog-empty-tab"><p>Скоро здесь появятся толстовки.</p></div>}
+        </div>
         <p className="catalog-note">* Без учёта доставки (бесплатно при заказе от 2-х вещей).</p>
-        <p className="catalog-sizes-note">** Размеры соответствуют стандартным белорусским. Если вы хотите, чтобы майка сидела свободно (оверсайз), рекомендуем заказывать на один размер больше вашего привычного.</p>
+        <p className="catalog-sizes-note">** Размеры соответствуют стандартным белорусским. Если вы хотите, чтобы вещь сидела свободно (оверсайз), рекомендуем заказывать на один размер больше вашего привычного.</p>
       </section>
 
       <section className="size-guide container" id="sizes">
-        <div className="size-guide-heading"><div className="section-label"><span>03</span><span>Размеры</span></div><h2>Найди<br /><em>свой размер.</em></h2><p>Сними мерки по любимой майке и сравни с таблицей. Для оверсайз-посадки выбирай размер по ширине изделия под проймой.</p></div>
-        <div className="size-guide-card"><img src="/images/image.png" alt="Таблица размеров маек МЕЖА" onClick={() => setSizeGuideOpen(true)} /><div className="size-guide-note"><span>ПОДСКАЗКА</span><strong>Измеряй вещь<br />на ровной поверхности.</strong><p>Ширина — от одной проймы до другой. Длина — от верхней точки плеча до низа по спинке.</p></div></div>
+        <div className="size-guide-heading"><div className="section-label"><span>03</span><span>Размеры · {activeTab === 'tshirts' ? 'Футболки' : 'Толстовки'}</span></div><h2>Найди<br /><em>свой размер.</em></h2><p>Сними мерки по любимой вещи и сравни с таблицей. Для оверсайз-посадки выбирай размер по ширине изделия под проймой.</p></div>
+        <div className="size-guide-card"><img src={sizeGuideImage} alt={`Таблица размеров ${activeTab === 'tshirts' ? 'маек' : 'толстовок'} МЕЖА`} onClick={() => setSizeGuideOpen(true)} /><div className="size-guide-note"><span>РАЗМЕРЫ</span><strong>S — {sizeHints[0]}<br />M — {sizeHints[1]} · L — {sizeHints[2]}</strong><p>Измеряй вещь на ровной поверхности.</p></div></div>
       </section>
 
       <section className="manifesto container"><div className="manifesto-line" /><p>НЕ ИЩИ<br /><span>СВОЁ МЕСТО.</span><br />СОЗДАЙ ЕГО.</p><span className="manifesto-mark">М / 2026</span></section>
@@ -269,8 +279,8 @@ function App() {
         </div>
       </section>
 
-      {sizeGuideOpen && <div className="image-modal" role="dialog" aria-modal="true" aria-label="Просмотр таблицы размеров" onClick={() => setSizeGuideOpen(false)}><button className="image-modal-close" onClick={() => setSizeGuideOpen(false)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src="/images/image.png" alt="Таблица размеров маек МЕЖА — увеличенный просмотр" /><div><strong>Таблица размеров</strong></div></div></div>}
-      {expandedProduct && <div className={`image-modal ${paramsProduct ? 'product-preview-modal' : ''}`} role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / 12</span><strong>{expandedProduct.name}</strong></div></div></div>}
+      {sizeGuideOpen && <div className="image-modal" role="dialog" aria-modal="true" aria-label="Просмотр таблицы размеров" onClick={() => setSizeGuideOpen(false)}><button className="image-modal-close" onClick={() => setSizeGuideOpen(false)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={sizeGuideImage} alt={`Таблица размеров ${activeTab === 'tshirts' ? 'маек' : 'толстовок'} МЕЖА — увеличенный просмотр`} /><div><strong>Таблица размеров · {activeTab === 'tshirts' ? 'Футболки' : 'Толстовки'}</strong></div></div></div>}
+      {expandedProduct && <div className={`image-modal ${paramsProduct ? 'product-preview-modal' : ''}`} role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / {expandedProduct.category === 'tshirts' ? '12' : '04'}</span><strong>{expandedProduct.name}</strong></div></div></div>}
       {paramsProduct && (
         <div className="image-modal params-modal" role="dialog" aria-modal="true" aria-label={`Выбор параметров: ${paramsProduct.name}`} onClick={() => setParamsProduct(null)}>
           <div className="params-modal-content" onClick={(event) => event.stopPropagation()}>
@@ -280,7 +290,7 @@ function App() {
             </div>
             <div className="params-modal-side">
               <div className="params-modal-info">
-                <span className="params-modal-mark">{paramsProduct.mark} / 12</span>
+                <span className="params-modal-mark">{paramsProduct.mark} / {paramsProduct.category === 'tshirts' ? '12' : '04'}</span>
                 <h3>{paramsProduct.name}</h3>
                 <p>{paramsProduct.type}</p>
                 <strong>{formatPrice(paramsProduct.price)}</strong>
@@ -293,7 +303,7 @@ function App() {
                       <button className={getCardSize(paramsProduct) === size ? 'active' : ''} key={size} type="button" onClick={() => setCardSizes((current) => ({ ...current, [paramsProduct.name]: size }))}>{size}</button>
                     ))}
                   </div>
-                  <div className="size-hints"><span>44–46</span><span>48</span><span>50</span></div>
+                  <div className="size-hints">{sizeHints.map((hint) => <span key={hint}>{hint}</span>)}</div>
                 </div>
                 <div className="product-quantity">
                   <span>КОЛ-ВО</span>
@@ -310,7 +320,7 @@ function App() {
         </div>
       )}
       {addedProduct && <div className="toast-notification"><Check size={16} /> <span>{addedProduct} добавлено в корзину</span></div>}
-      <footer className="footer container"><a className="wordmark" href="#top">МЕЖА</a><p>ОДЕЖДА ТВОЕГО КРАЯ.</p><div className="footer-links"><a href="https://t.me/moi_angel" aria-label="Telegram"><Send size={17} /></a><a href="https://www.tiktok.com/@shop.mezha" aria-label="TikTok"><Music2 size={17} /></a></div><span>© 2026 МЕЖА</span></footer>
+      <footer className="footer container"><a className="wordmark" href="#top">МЕЖА</a><p>ОДЕЖДА ТВОЕГО КРАЯ.</p><div className="footer-links"><a href="https://t.me/moi_angel" aria-label="Telegram"><Send size={17} /></a><a href="https://www.tiktok.com/@shop.mezha" aria-label="TikTok"><Music2 size={17} /></a></div><span>© 2026 МЕЖА</span><div className="legal-details"><p>ИП Чунаев Денис Андреевич, Республика Беларусь, г. Климовичи, пер. Революционный 21-56, +375 (29) 840-64-58</p><p>УНП 791406610 от 26.08.2026 г. выдано Климовичским РИК, тел. Климовичский РИК: +375 (22) 442-56-02</p></div></footer>
     </main>
   );
 }
