@@ -6,11 +6,15 @@ const products = [
   { name: 'СВОБОДНЫЙ ХОД', type: '195г/м²', price: 69, tone: 'black', mark: '01', image: '/images/1._СВОБОДНЫИ_ХОД.png' },
   { name: 'ТВОЕ НАПРАВЛЕНИЕ', type: '195г/м²', price: 69, tone: 'bone', mark: '02', image: '/images/2._ТВОЕ_НАПРАВЛЕНИЕ.png' },
   { name: 'МЕСТО СИЛЫ', type: '195г/м²', price: 69, tone: 'slate', mark: '03', image: '/images/3._МЕСТО_СИЛЫ.png' },
-  { name: 'ЦИФРОВОЙ СЛЕД', type: '195г/м²', price: 69, tone: 'sand', mark: '04', image: '/images/4._ЦИФРОВОИ_СЛЕД.png' },
+  { name: 'ЦИФРОВОЙ СЛЕД', type: '195г/м²', price: 69, tone: 'sand', mark: '04', image: '/images/4._ЦИФРОВОИ_СЛЕД copy.png' },
   { name: 'СИЛУЭТ', type: '195г/м²', price: 69, tone: 'red', mark: '05', image: '/images/5._СИЛУЭТ.png' },
   { name: 'ШИФР', type: '195г/м²', price: 69, tone: 'green', mark: '06', image: '/images/6._ШИФР.png' },
   { name: 'КОНТЕКСТ', type: '195г/м²', price: 69, tone: 'rust', mark: '07', image: '/images/7._КОНТЕКСТ copy.png' },
   { name: 'КООРДИНАТА', type: '195г/м²', price: 69, tone: 'teal', mark: '08', image: '/images/8._КООРДИНАТА copy.png' },
+  { name: 'ПОЛЕТ', type: '195г/м²', price: 69, tone: 'bone', mark: '09', image: '/images/9._ПОЛЕТ.png' },
+  { name: 'ИСТОКИ', type: '195г/м²', price: 69, tone: 'bone', mark: '10', image: '/images/10.ИСТОКИ.png' },
+  { name: 'КАРТА', type: '195г/м²', price: 69, tone: 'bone', mark: '11', image: '/images/11.КАРТА.png' },
+  { name: 'СВЯЗЬ', type: '195г/м²', price: 69, tone: 'bone', mark: '12', image: '/images/12.СВЯЗЬ.png' },
 ] as const;
 
 const sizes = ['S', 'M', 'L'] as const;
@@ -219,7 +223,7 @@ function App() {
       </section>
 
       <section className="catalog container" id="catalog">
-        <div className="section-heading"><div className="section-label"><span>02</span><span>Каталог / 08</span></div><h2>Вещи<br /><em>с характером.</em></h2><p>Базовая форма. Нестандартная мысль.</p></div>
+        <div className="section-heading"><div className="section-label"><span>02</span><span>Каталог / 12</span></div><h2>Вещи<br /><em>с характером.</em></h2><p>Базовая форма. Нестандартная мысль.</p></div>
         <div className="catalog-tabs">
           <button className={activeTab === 'tshirts' ? 'active' : ''} onClick={() => setActiveTab('tshirts')}>ФУТБОЛКИ</button>
           <button className={activeTab === 'hoodies' ? 'active' : ''} onClick={() => setActiveTab('hoodies')}>ТОЛСТОВКИ</button>
@@ -248,7 +252,7 @@ function App() {
       <section className="manifesto container"><div className="manifesto-line" /><p>НЕ ИЩИ<br /><span>СВОЁ МЕСТО.</span><br />СОЗДАЙ ЕГО.</p><span className="manifesto-mark">М / 2026</span></section>
 
       <section className="order-section container" id="order">
-        <div className="order-intro"><div className="section-label"><span>04</span><span>Заказ</span></div><h2>Вещь<br /><em>тебе.</em></h2><p>Заполните форму — и в течение 5 рабочих дней ваш заказ приедет в удобное вам отделение почты.</p></div>
+        <div className="order-intro"><div className="section-label"><span>04</span><span>Заказ</span></div><h2>Вещь<br /><em>тебе.</em></h2><p>Заполните форму — мы изготовим ваш заказ и передадим его в службу доставки в течение 5–7 рабочих дней. Номер для отслеживания посылки придет вам на электронную почту.</p></div>
         <div className="order-form-wrap">
           {submitted ? <div className="success-message"><div className="success-icon"><Check size={28} /></div><h3>Заявка принята.</h3><p>Спасибо. Мы уже получили твой заказ и напишем для подтверждения деталей.</p><button className="button button-dark" onClick={() => setSubmitted(false)}>Оформить ещё одну <ArrowRight size={17} /></button></div> : <form className="order-form" onSubmit={submitOrder}>
             <p className="required-note"><span>*</span> обязательные поля</p>
