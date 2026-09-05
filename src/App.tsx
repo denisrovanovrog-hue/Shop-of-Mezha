@@ -233,7 +233,7 @@ function App() {
             return <article className="product-card" key={product.name}>
               <div className="product-image" onClick={() => setExpandedProduct(product)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setExpandedProduct(product); } }} role="button" tabIndex={0} aria-label={`Рассмотреть майку ${product.name}`}>
                 <img className="product-photo" src={product.image} alt={`Майка ${product.name}`} />
-                <span className="product-number">{product.mark} / 08</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
+                <span className="product-number">{product.mark} / 12</span><span className="product-stamp">МЕЖА<br />MADE IN BY</span><span className="zoom-hint">нажми, чтобы рассмотреть</span>
               </div>
               <div className="product-info"><div><h3>{product.name}</h3><p>{product.type}</p></div><strong>{formatPrice(product.price)}</strong></div>
               <button className="product-choose" onClick={() => setParamsProduct(product)}>Выбрать параметры <ArrowRight size={16} /></button>
@@ -270,7 +270,7 @@ function App() {
       </section>
 
       {sizeGuideOpen && <div className="image-modal" role="dialog" aria-modal="true" aria-label="Просмотр таблицы размеров" onClick={() => setSizeGuideOpen(false)}><button className="image-modal-close" onClick={() => setSizeGuideOpen(false)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src="/images/image.png" alt="Таблица размеров маек МЕЖА — увеличенный просмотр" /><div><strong>Таблица размеров</strong></div></div></div>}
-      {expandedProduct && <div className={`image-modal ${paramsProduct ? 'product-preview-modal' : ''}`} role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / 08</span><strong>{expandedProduct.name}</strong></div></div></div>}
+      {expandedProduct && <div className={`image-modal ${paramsProduct ? 'product-preview-modal' : ''}`} role="dialog" aria-modal="true" aria-label={`Просмотр майки ${expandedProduct.name}`} onClick={() => setExpandedProduct(null)}><button className="image-modal-close" onClick={() => setExpandedProduct(null)} aria-label="Закрыть просмотр"><X size={24} /></button><div className="image-modal-content" onClick={(event) => event.stopPropagation()}><img src={expandedProduct.image} alt={`Майка ${expandedProduct.name} — увеличенный просмотр`} /><div><span>{expandedProduct.mark} / 12</span><strong>{expandedProduct.name}</strong></div></div></div>}
       {paramsProduct && (
         <div className="image-modal params-modal" role="dialog" aria-modal="true" aria-label={`Выбор параметров: ${paramsProduct.name}`} onClick={() => setParamsProduct(null)}>
           <div className="params-modal-content" onClick={(event) => event.stopPropagation()}>
@@ -280,7 +280,7 @@ function App() {
             </div>
             <div className="params-modal-side">
               <div className="params-modal-info">
-                <span className="params-modal-mark">{paramsProduct.mark} / 08</span>
+                <span className="params-modal-mark">{paramsProduct.mark} / 12</span>
                 <h3>{paramsProduct.name}</h3>
                 <p>{paramsProduct.type}</p>
                 <strong>{formatPrice(paramsProduct.price)}</strong>
